@@ -1,15 +1,28 @@
-export interface Item {
+export interface Location {
   id: string;
-  title: string;
-  tags: string[];
-  imageUrl: string;
-  date: string;
+  name: string;
+  description: string | null;
+  category_id: string | null;
+  coordinates: any; // GeometryPoint from PostGIS
+  address: string | null;
+  is_public: boolean;
+  created_by: string;
+  created_at: string;
 }
 
 export interface Category {
   id: string;
   name: string;
-  tags: string[];
+  description: string | null;
+  color: string;
+  icon_name: string | null;
+}
+
+export interface MapBounds {
+  minLng: number;
+  minLat: number;
+  maxLng: number;
+  maxLat: number;
 }
 
 export interface AuthData {
@@ -17,23 +30,7 @@ export interface AuthData {
   uuid: string;
 }
 
-export interface SupabasePostOptions {
+export interface SupabaseRequestOptions {
   onSuccess?: (data: any) => void;
   onError?: (error: any) => void;
-}
-
-export interface SupabaseGetOptions {
-  queryParams?: Record<string, string>;
-  onSuccess?: (data: any) => void;
-  onError?: (error: Error) => void;
-}
-
-interface ContentCard {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  image_url?: string;
-  created_at: string;
-  category_id: string;
 }

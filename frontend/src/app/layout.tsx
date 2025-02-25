@@ -14,8 +14,8 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en" className={`${space_grotesk.variable} ${akatab.variable}`}>
       <head>
-        <title>Locatr</title>
-        <meta name="description" content="Locate anything, anywhere." />
+        <title>FinFix</title>
+        <meta name="description" content="Feeling lost financially? FinFix is here to help you find your way back to financial stability." />
       </head>
       <body className="font-fspace_grotesk">
         <AuthProvider>

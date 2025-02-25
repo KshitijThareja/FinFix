@@ -14,7 +14,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
   const router = useRouter();
-  const { user, refreshUser } = useAuth();
+  const { user, refreshUser, session_token } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const handleLogoClick = () => {
@@ -49,8 +49,8 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
   return (
     <nav className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
       <div onClick={handleLogoClick} className="flex hover:cursor-pointer items-center space-x-2">
-        <Image src="/icon.svg" className='dark:invert' alt="mARK.it" width={30} height={30} />
-        <span className="text-xl font-bold text-gray-900 dark:text-gray-100">mARK.it</span>
+        <Image src="/icon.svg" className='dark:invert' alt="FinFix" width={30} height={30} />
+        <span className="text-xl font-bold text-gray-900 dark:text-gray-100">FinFix</span>
       </div>
 
       <div className="flex items-center space-x-4">
@@ -79,13 +79,6 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
                 <div className="py-1">
-                  <Link
-                    href="/dashboard/overview"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    Profile
-                  </Link>
                   <button
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
