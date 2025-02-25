@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { createClient, User } from '@supabase/supabase-js';
-import config from '../config';
+import config from '../config_prod';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Extend Express Request type to include user
 interface AuthRequest extends Request {

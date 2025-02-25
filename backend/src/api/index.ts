@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import { calculateLoanSchedule } from './utils/loanCalculator';
 import { validateLoanInput } from './utils/validators';
-import config from './config';
+import config from './config_prod';
 import { authenticateToken } from './middleware/auth';
 
 // Load environment variables
