@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { Moon, Sun } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { signout } from "@/lib/auth-actions";
-import Link from 'next/link';
 import { useAuth } from '@/app/utils/authContext';
 
 interface NavbarProps {

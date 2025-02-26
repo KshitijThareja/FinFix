@@ -4,12 +4,10 @@ import config from '../config_prod';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// Extend Express Request type to include user
 interface AuthRequest extends Request {
-  user?: User; // Use Supabase's User type
+  user?: User;
 }
 
-// Initialize Supabase client
 const supabase = createClient(config.SUPABASE_URL!, config.SUPABASE_SERVICE_ROLE_KEY!);
 
 export const authenticateToken = async (
@@ -22,7 +20,7 @@ export const authenticateToken = async (
 
   if (!token) {
     res.status(401).json({ error: 'Missing token' });
-    return; // Exit middleware without calling next()
+    return;
   }
 
   try {
@@ -30,14 +28,14 @@ export const authenticateToken = async (
 
     if (error) {
       res.status(403).json({ error: 'Invalid token' });
-      return; // Exit middleware without calling next()
+      return;
     }
 
-    req.user = data.user; // Attach user to request
-    next(); // Proceed to next middleware/route
+    req.user = data.user;
+    next(); 
   } catch (error) {
     console.error('Authentication error:', error);
     res.status(500).json({ error: 'Authentication error' });
-    return; // Exit middleware without calling next()
+    return;
   }
 };

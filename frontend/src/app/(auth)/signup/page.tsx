@@ -4,6 +4,7 @@ import { AuthInput } from '@/components/auth/AuthInput';
 import { GoogleButton } from '@/components/auth/GoogleButton';
 import { Divider } from '@/components/auth/Divider';
 import { signup, signInWithGoogle } from '@/lib/auth-actions';
+import Link from 'next/link';
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ const SignUp: React.FC = () => {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);  // Track form submission
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +41,7 @@ const SignUp: React.FC = () => {
         formDataObj.append('confirm-password', formData.confirmPassword);
 
         await signup(formDataObj);
-        setIsSubmitted(true); // Show confirmation message after successful signup
+        setIsSubmitted(true);
       } catch (error) {
         console.error('Signup failed:', error);
       }
@@ -73,9 +74,9 @@ const SignUp: React.FC = () => {
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <a href="/login" className="text-blue-600 hover:text-blue-500">
+            <Link href="/login" className="text-blue-600 hover:text-blue-500">
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
 
@@ -83,7 +84,6 @@ const SignUp: React.FC = () => {
         <Divider />
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* First Name & Last Name in one row */}
           <div className="flex gap-4">
             <AuthInput
               label="First Name"

@@ -6,6 +6,7 @@ import { Divider } from '@/components/auth/Divider';
 import { login, signInWithGoogle } from '@/lib/auth-actions';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/utils/authContext';
+import Link from 'next/link';
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -15,18 +16,7 @@ const Login: React.FC = () => {
     password: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [extensionStatus, setExtensionStatus] = useState<'synced' | 'failed' | null>(null);
-
-  useEffect(() => {
-    // Check extension sync status
-    const syncStatus = localStorage.getItem('extensionSynced');
-    if (syncStatus === 'true') {
-      setExtensionStatus('synced');
-    } else if (syncStatus === 'false') {
-      setExtensionStatus('failed');
-    }
-  }, []);
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
@@ -61,9 +51,9 @@ const Login: React.FC = () => {
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Don't have an account?{' '}
-            <a href="/signup" className="text-blue-600 hover:text-blue-500">
+            <Link href={"/signup"} className="text-blue-600 hover:text-blue-500">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
 
@@ -103,9 +93,9 @@ const Login: React.FC = () => {
               </label>
             </div>
 
-            <a href="/forgot-password" className="text-sm dark:text-white hover:text-blue-500 dark:hover:text-blue-400">
+            <Link href="/forgot-password" className="text-sm dark:text-white hover:text-blue-500 dark:hover:text-blue-400">
               Forgot your password?
-            </a>
+            </Link>
           </div>
 
           <button
@@ -115,11 +105,6 @@ const Login: React.FC = () => {
             Sign in
           </button>
         </form>
-          {extensionStatus === 'failed' && (
-        <div className="text-red-500 text-sm mt-2">
-          Failed to sync with extension. Please try reinstalling the extension.
-        </div>
-      )}
       </div>
     </div>
   );

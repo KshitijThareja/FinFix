@@ -1,4 +1,3 @@
-// utils/auth-context.tsx
 "use client"
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from "@/app/utils/supabase/client";

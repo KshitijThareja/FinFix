@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-// Interface for the schedule entries
 interface ScheduleEntry {
   payment_number: number;
   payment_date: string;
@@ -16,14 +15,11 @@ const LoanRepaymentChart = ({ scheduleData }) => {
 
   useEffect(() => {
     if (scheduleData && scheduleData.length > 0) {
-      // Process data for the chart - simplify if there are too many points
       let processedData = scheduleData;
       if (scheduleData.length > 24) {
-        // Sample every other payment for long schedules
         processedData = scheduleData.filter((_, index) => index % 2 === 0);
       }
 
-      // Format the data for the chart
       const formattedData = processedData.map(entry => ({
         name: `Payment ${entry.payment_number}`,
         Principal: entry.principal_payment,

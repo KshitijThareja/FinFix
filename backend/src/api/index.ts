@@ -7,31 +7,25 @@ import { validateLoanInput } from './utils/validators';
 import config from './config_prod';
 import { authenticateToken } from './middleware/auth';
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
 const PORT = config.PORT || 8000;
 
-// Middleware
-app.use(cors({ origin: config.FRONTEND_URL || 'http://localhost:3000' }));
+app.use(cors({ origin: config.FRONTEND_URL || 'https://fin-fix.vercel.app' }));
 app.use(express.json());
 
-// Supabase client (for routes; auth middleware has its own instance)
 const supabase = createClient(config.SUPABASE_URL!, config.SUPABASE_SERVICE_ROLE_KEY!);
-
-// Extend Request type for routes
 interface AuthRequest extends Request {
-  user?: any; // Refine this if you import Supabase's User type globally
+  user?: any;
 }
 
-// GET all loans for a user
 app.get('/api/loans', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
     const { data, error } = await supabase
       .from('loans')
       .select('*')
-      .eq('user_id', req.user!.id) // Non-null assertion since authenticateToken ensures user exists
+      .eq('user_id', req.user!.id)
       .order('created_at', { ascending: false });
 
     if (error) throw error;
@@ -43,10 +37,8 @@ app.get('/api/loans', authenticateToken, async (req: AuthRequest, res: Response)
   }
 });
 
-// GET a specific loan with its repayment schedule
 app.get('/api/loans/:id', authenticateToken, async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    // Get loan details
     const { data: loan, error: loanError } = await supabase
       .from('loans')
       .select('*')
@@ -88,7 +80,6 @@ app.post('/api/loans', authenticateToken, async (req: AuthRequest, res: Response
       moratorium_period,
     } = req.body;
 
-    // Validate input
     const validationError = validateLoanInput(req.body);
     if (validationError) {
       res.status(400).json({ error: validationError });
@@ -154,7 +145,6 @@ app.post('/api/loans', authenticateToken, async (req: AuthRequest, res: Response
 // DELETE a loan
 app.delete('/api/loans/:id', authenticateToken, async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    // Check if loan exists and belongs to user
     const { data: loan, error: loanError } = await supabase
       .from('loans')
       .select('id')
@@ -168,7 +158,6 @@ app.delete('/api/loans/:id', authenticateToken, async (req: AuthRequest, res: Re
       res.status(404).json({ error: 'Loan not found' });
     }
 
-    // Delete loan (and cascade to repayment_schedules)
     const { error: deleteError } = await supabase
       .from('loans')
       .delete()
@@ -183,13 +172,11 @@ app.delete('/api/loans/:id', authenticateToken, async (req: AuthRequest, res: Re
   }
 });
 
-// Global error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error('Unhandled error:', err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,5 +1,6 @@
 "use client"
 import React from 'react';
+import Link from 'next/link';
 
 export default function ErrorPage() {
 
@@ -15,12 +16,12 @@ export default function ErrorPage() {
         <p className="text-gray-600 dark:text-gray-400 mb-8">
           Sorry, the page you are looking for does not exist.
         </p>
-        <a
+        <Link
           href="/"
           className="inline-block px-6 py-3 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors duration-200"
         >
           Return Home
-        </a>
+        </Link>
       </div>
     </div>
   );
